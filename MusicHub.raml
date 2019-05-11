@@ -1,0 +1,208 @@
+#%RAML 1.0 Library
+title: Music Hub
+version: v1
+baseUri: http://localhost:3000/
+baseUriParameters: {}
+documentation:
+- title: OpenWeatherMap API
+- content: 'The API provides functionality to perform CRUD operations on music tracks, albums and artists for the Music Hub service'
+
+/artist:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "count" : <int>,
+                "artists": <artist objects>
+              }
+      500:
+        body:
+          application/json:
+            example: |
+              {
+                "message": "Internal Server Error"
+              }
+    /{artistId}:
+        get:
+          queryParameters:
+            artistId:
+              _id: Artist ObjectId
+              name: string
+              required: true
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: |
+                        {
+                          "message" : <{artistId} artist object>
+                        }
+                404:
+                  body:
+                    application/json:
+                      example: |
+                        {
+                          "message": "No valid entry found for provided ID"
+                        }
+
+/album:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "count" : <int>,
+                "albums": <album objects>
+              }
+      500:
+        body:
+          application/json:
+            example: |
+              {
+                "message": "Internal Server Error"
+              }
+    /{albumId}:
+        get:
+          queryParameters:
+            albumId:
+              _id: Album ObjectId
+              name: string
+              artist_id: Artist ObjectId
+              required: true
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: |
+                        {
+                          "message" : <{albumId} album object>
+                        }
+                404:
+                  body:
+                    application/json:
+                      example: |
+                        {
+                          "message": "Album not found"
+                        }
+        delete:
+          queryParameters:
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: |
+                      {
+                        "message" : "Album deleted"
+                      }
+              500:
+                body:
+                  application/json:
+                    example: |
+                      {
+                        "message": "Internal Server Error"
+                      }
+        post:
+          queryParameters:
+            albumId:
+              name: string
+              artist_id: Artist ObjectId
+              required: true
+          responses:
+            200:
+              body:
+                application/json:
+                  example: |
+                    {
+                      "message" : "Album updated"
+                    }
+            500:
+              body:
+                application/json:
+                  example: |
+                    {
+                      "message": "Internal Server Error"
+                    }
+/track:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "count" : <int>,
+                "tracks": <track objects>
+              }
+      500:
+        body:
+          application/json:
+            example: |
+              {
+                "message": "Internal Server Error"
+              }
+    /{trackId}:
+        get:
+          queryParameters:
+            trackId:
+              _id: Track ObjectId
+              name: string
+              album_id: Album ObjectId
+              required: true
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: |
+                        {
+                          "message" : <{trackId} track object>
+                        }
+                404:
+                  body:
+                    application/json:
+                      example: |
+                        {
+                          "message": "Track not found"
+                        }
+        delete:
+          queryParameters:
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: |
+                      {
+                        "message" : "Track deleted"
+                      }
+              500:
+                body:
+                  application/json:
+                    example: |
+                      {
+                        "message": "Internal Server Error"
+                      }
+        post:
+          queryParameters:
+            albumId:
+              name: string
+              album_id: Album ObjectId
+              required: true
+          responses:
+            200:
+              body:
+                application/json:
+                  example: |
+                    {
+                      "message" : "Track updated"
+                    }
+            500:
+              body:
+                application/json:
+                  example: |
+                    {
+                      "message": "Internal Server Error"
+                    }
